@@ -1,6 +1,6 @@
-# Software Project Planner — Multi-Agent System
+# Software Team Planner System
 
-A multi-agent orchestration with local LLMs via Ollama or LM Studio. The system simulates a software development team that takes a project idea and produces a structured plan through collaborative agent interaction.
+A multi-agent orchestration with local LLMs via Ollama or LM Studio. A virtual software development team that takes a project idea and produces a structured plan through collaborative agent interaction.
 
 ## Agents
 
