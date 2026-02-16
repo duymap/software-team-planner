@@ -2,7 +2,7 @@
 
 ## Context
 
-Build a multi-agent orchestration demo using the AG2 framework (formerly AutoGen) with a local Ollama LLM. The system simulates a software development team that takes a user's project idea and produces a structured project plan through collaborative agent interaction.
+Build a multi-agent orchestration using the AG2 framework (formerly AutoGen) with a local Ollama LLM. The system simulates a software development team that takes a user's project idea and produces a structured project plan through collaborative agent interaction.
 
 ## Architecture Overview
 
