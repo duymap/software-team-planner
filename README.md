@@ -96,3 +96,21 @@ All settings are controlled via environment variables (`.env` file):
 | `REASONING_TEMPERATURE` | `0.7` | Temperature for reasoning agents |
 | `CODE_MODEL` | `qwen3:latest` | Model for Developer, Reviewer |
 | `CODE_TEMPERATURE` | `0.3` | Temperature for code agents |
+
+Example:
+```
+## LLM Provider: "ollama" or "lmstudio"
+LLM_PROVIDER=lmstudio
+LLM_BASE_URL=http://localhost:1234/v1
+
+## Reasoning model (for PM, Architect, QA)
+REASONING_MODEL=openai/gpt-oss-20b
+REASONING_TEMPERATURE=0.3
+
+## Code model (for Developer, Reviewer)
+CODE_MODEL=qwen3-coder-next-mlx
+CODE_TEMPERATURE=0.1
+
+## Shared parameters
+LLM_NUM_CTX=60000
+```
