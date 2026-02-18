@@ -1,4 +1,4 @@
-from orchestrator import pm, manager
+from orchestrator import user_proxy, manager
 
 DEFAULT_PROJECT_IDEA = (
     "Build a REST API for a task management app with user auth, "
@@ -20,7 +20,7 @@ def main():
     print("Starting multi-agent planning session...")
     print("-" * 60 + "\n")
 
-    chat_result = pm.initiate_chat(
+    chat_result = user_proxy.initiate_chat(
         manager,
         message=user_input,
     )

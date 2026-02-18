@@ -1,14 +1,28 @@
-from autogen import GroupChat, GroupChatManager
+from autogen import ConversableAgent, GroupChat, GroupChatManager
 
 from agents import create_agents
 from config import reasoning_config
+
+
+pm, architect, developer, reviewer, qa = create_agents()
+
+# User proxy agent to initiate the chat so the PM actually processes the input
+user_proxy = ConversableAgent(
+    name="user",
+    system_message="You are the user who submits a project idea for the team to plan.",
+    human_input_mode="NEVER",
+    llm_config=False,
+    max_consecutive_auto_reply=0,
+)
 
 
 def select_next_speaker(last_speaker, groupchat):
     """Custom speaker selection enforcing the pipeline flow with reviewer feedback loop."""
     last_msg = groupchat.messages[-1]["content"].lower()
 
-    if last_speaker == pm:
+    if last_speaker == user_proxy:
+        return pm
+    elif last_speaker == pm:
         return architect
     elif last_speaker == architect:
         return developer
@@ -24,18 +38,17 @@ def select_next_speaker(last_speaker, groupchat):
     return None
 
 
-pm, architect, developer, reviewer, qa = create_agents()
-
 allowed_transitions = {
+    user_proxy: [pm],
     pm: [architect],
     architect: [developer],
     developer: [reviewer],
     reviewer: [developer, qa],
-    qa: [pm],
+    qa: [user_proxy],
 }
 
 group_chat = GroupChat(
-    agents=[pm, architect, developer, reviewer, qa],
+    agents=[user_proxy, pm, architect, developer, reviewer, qa],
     allowed_or_disallowed_speaker_transitions=allowed_transitions,
     speaker_transitions_type="allowed",
     messages=[],
