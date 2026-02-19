@@ -28,6 +28,10 @@ class AgentSpinner:
         self._stop_event = threading.Event()
         self._label = ""
 
+    @property
+    def active(self):
+        return self._thread is not None and self._thread.is_alive()
+
     def start(self, label: str):
         self.stop()
         self._label = label
@@ -39,7 +43,13 @@ class AgentSpinner:
         if self._thread and self._thread.is_alive():
             self._stop_event.set()
             self._thread.join(timeout=1)
+            self._clear_line()
         self._thread = None
+
+    def _clear_line(self):
+        """Erase the current spinner line."""
+        self._stream.write("\r\033[2K")
+        self._stream.flush()
 
     def _spin(self):
         idx = 0
@@ -90,7 +100,9 @@ class SpinnerStream:
                 self._original.flush()
                 continue
 
-            # Pass through everything else
+            # Pass through everything else — clear spinner line first to avoid ghost
+            if self._spinner.active:
+                self._spinner._clear_line()
             self._original.write(line + "\n")
 
     def flush(self):
